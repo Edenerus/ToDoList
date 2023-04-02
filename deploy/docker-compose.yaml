@@ -41,7 +41,7 @@ services:
 
 
 volumes:
-  todolist1_pg_data:
+  todolist_pg1_data:
     driver: local
   django_static:
     driver: local

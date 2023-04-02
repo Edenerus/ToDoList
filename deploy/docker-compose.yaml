@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - todolist_pg_data:/var/lib/postgresql/data/
+      - todolist_pg1_data:/var/lib/postgresql/data/
     healthcheck:
       test: pg_isready -U ${DB_USER} -d ${DB_NAME}
       interval: 3s
@@ -41,7 +41,7 @@ services:
 
 
 volumes:
-  todolist_pg_data:
+  todolist1_pg_data:
     driver: local
   django_static:
     driver: local

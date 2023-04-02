@@ -2,8 +2,6 @@ FROM python:3.10-slim
 
 WORKDIR /todolist/
 
-EXPOSE 8000
-
 COPY poetry.lock .
 COPY pyproject.toml .
 
@@ -14,6 +12,8 @@ RUN pip install poetry \
 COPY . .
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
+
+EXPOSE 8000
 
 CMD ["gunicorn", "todolist.wsgi", "-w", "4", "-b", "0.0.0.0:8000"]
 

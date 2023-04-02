@@ -69,7 +69,7 @@ jobs:
           script: |
             cd todolist
             docker-compose pull
-            docker-compose up -d
+            docker-compose up -d0
       - name: Clear after deploy
         if: always()
         uses: appleboy/ssh-action@master

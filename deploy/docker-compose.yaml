@@ -14,7 +14,7 @@ services:
       test: pg_isready -U ${DB_USER} -d ${DB_NAME}
       interval: 3s
       timeout: 3s
-      retries: 3
+      retries: 10
 
   api:
     image: edenerus/todolist:latest

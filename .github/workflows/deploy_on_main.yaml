@@ -17,7 +17,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - uses: docker/build-push-action@v4
         with:
-          push: -true
+          push: true
           file: Dockerfile.prod
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/todolist:latest
 

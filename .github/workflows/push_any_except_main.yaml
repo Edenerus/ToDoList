@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches-ignore:
-      - main
+      - master
 
 jobs:
   build:
@@ -21,4 +21,4 @@ jobs:
         with:
           push: true
           file: Dockerfile
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/todolist:${{ env.BRANCH_NAME }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/todolist:latest

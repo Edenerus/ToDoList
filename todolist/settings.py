@@ -24,6 +24,9 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://edenerus.online', ]
+CSRF_COOKIE_SECURE = True
+
 
 # Application definition
 

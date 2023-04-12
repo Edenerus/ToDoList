@@ -1,3 +1,5 @@
+from abc import ABC
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
@@ -49,7 +51,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'last_name', 'email']
 
 
-class PasswordUpdateSerializer(serializers.ModelSerializer):
+class PasswordUpdateSerializer(serializers.Serializer):
     old_password = PasswordField(required=True)
     new_password = PasswordField(required=True)
 

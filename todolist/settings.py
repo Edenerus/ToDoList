@@ -34,11 +34,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "psycopg2",
-    "rest_framework",
+    'rest_framework',
     'social_django',
+    'django_filters',
 
-    "core",
+    'core',
+    'goals',
 
 ]
 
@@ -135,6 +136,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+}
 
 AUTH_USER_MODEL = 'core.User'
 

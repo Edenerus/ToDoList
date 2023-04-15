@@ -33,6 +33,7 @@ services:
     volumes:
       - ./todolist:/todolist/todolist
       - ./core:/todolist/core
+      - ./goals:/todolist/goals
       - django_static:/todolist/static
 
   front:

@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from django.db import transaction
-from rest_framework.generics import get_object_or_404
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 
 from core.models import User
 from goals.models import GoalCategory, Goal, GoalComment, Board, BoardParticipant
@@ -142,45 +140,37 @@ class BoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        fields = "__all__"
-        read_only_fields = ("id", "created", "updated")
+        fields = '__all__'
+        read_only_fields = ('id', 'created', 'updated')
 
-        def update(self, instance, validated_data) -> Board:
-            owner: User = validated_data.pop('user')
-            new_participants: dict = validated_data.pop('participants')
-            old_participants: dict = instance.participants.exclude(user=owner)
-            new_by_id = {part['user'].id: part for part in new_participants}
-            # {1: {id: 1, username: 'name', role: 1, ...}, }
-
-            with transaction.atomic():
-
-                # определить и выкинуть тех, кого не будет в новом списке участников
-                for old_part in old_participants:
-
-                    if old_part.user_id not in new_by_id.keys():
-                        old_part.delete()
-
-                    # для всех, кто остался
-                    else:
-
-                        # проверяем, изменилась ли роль и изменяем
-                        if old_part.role != new_by_id[old_part.user_id]['role']:
-                            old_part.role = new_by_id[old_part.user_id]['role']
-                            old_part.save()
-
-                        # получаем обработанного старого участника и удаляем из словаря новых
-                        new_by_id.pop(old_part.user_id)
-
-                # для всех, кто остался в новых
-                for new_part in new_by_id.values():
-                    BoardParticipant.objects.create(
-                        user=new_part['user'],
-                        board=instance,
-                        role=new_part['role']
-                    )
+    def update(self, instance, validated_data):
+        owner: User = validated_data.pop('user')
+        new_participants = validated_data.pop('participants')
+        old_participants = instance.participants.exclude(user=owner)
+        new_by_id = {part['user'].id: part for part in new_participants}
+        with transaction.atomic():
+            # определить и выкинуть тех, кого не будет в новом списке участников
+            for old_part in old_participants:
+                if old_part.user_id not in new_by_id.keys():
+                    old_part.delete()
+                # для всех, кто остался
+                else:
+                    # проверяем, изменилась ли роль -> изменяем
+                    if old_part.role != new_by_id[old_part.user_id]['role']:
+                        old_part.role = new_by_id[old_part.user_id]['role']
+                        old_part.save()
+                    # получаем обработанного старого участника и удаляем из словаря новых
+                    new_by_id.pop(old_part.user_id)
+            # для всех, кто остался в новых
+            for new_part in new_by_id.values():
+                BoardParticipant.objects.create(
+                    user=new_part['user'],
+                    board=instance,
+                    role=new_part['role']
+                )
 
                 if title := validated_data.get('title'):
                     instance.title = title
                     instance.save()
 
-            return instance
+        return instance

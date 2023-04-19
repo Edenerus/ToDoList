@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from goals.models import Goal
 from goals.serializers import GoalSerializer, GoalCreateSerializer
 from goals.filters import GoalDateFilter
+from goals.permissions import GoalBoardPermissions
 
 
 class GoalCreateView(CreateAPIView):
@@ -19,11 +20,15 @@ class GoalCreateView(CreateAPIView):
 
 class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, GoalBoardPermissions, ]
     serializer_class = GoalSerializer
 
     def get_queryset(self):
-        return Goal.objects.filter(~Q(status=Goal.Status.archived) & Q(category__is_deleted=False))
+        return Goal.objects.select_related('category').filter(
+            ~Q(status=Goal.Status.archived) &
+            Q(category__is_deleted=False) &
+            Q(category__board__participants__user_id=self.request.user.id)
+        )
 
     def perform_destroy(self, instance):
         with transaction.atomic():
@@ -44,6 +49,8 @@ class GoalListView(ListAPIView):
     ordering = ['due_date', '-priority']
 
     def get_queryset(self):
-        return Goal.objects.filter(
-            Q(user_id=self.request.user.id) & ~Q(status=Goal.Status.archived) & Q(category__is_deleted=False)
+        return Goal.objects.select_related('category').filter(
+            ~Q(status=Goal.Status.archived) &
+            Q(category__is_deleted=False) &
+            Q(category__board__participants__user_id=self.request.user.id)
         )

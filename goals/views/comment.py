@@ -23,7 +23,9 @@ class GoalCommentListView(ListAPIView):
     ordering = ['-created', ]
 
     def get_queryset(self):
-        return GoalComment.objects.filter(user_id=self.request.user.id)
+        return GoalComment.objects.filter(
+            goal__category__board__participants__user_id=self.request.user.id
+        )
 
 
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
@@ -32,4 +34,4 @@ class GoalCommentView(RetrieveUpdateDestroyAPIView):
     serializer_class = GoalCommentSerializer
 
     def get_queryset(self):
-        return GoalComment.objects.filter(user_id=self.request.user.id)
+        return GoalComment.objects.filter(goal__category__board__participants__user_id=self.request.user.id)

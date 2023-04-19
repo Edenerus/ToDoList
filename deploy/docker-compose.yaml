@@ -28,7 +28,7 @@ services:
       - django_static:/todolist/static
 
   front:
-    image: sermalenk/skypro-front:lesson-35
+    image: sermalenk/skypro-front:lesson-37
     restart: always
     ports:
       - "8001:80"

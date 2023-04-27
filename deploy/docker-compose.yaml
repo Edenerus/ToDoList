@@ -41,7 +41,7 @@ services:
     command: python ./manage.py runbot
 
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     restart: always
     ports:
       - "8001:80"

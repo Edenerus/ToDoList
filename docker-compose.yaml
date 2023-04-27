@@ -49,6 +49,7 @@ services:
       - django_static:/usr/share/nginx/html/static
 
   bot:
+    build: .
     env_file:
       - .env
     environment:

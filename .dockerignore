@@ -5,6 +5,7 @@
 !todolist/**
 !core/**
 !goals/**
+!bot/**
 !manage.py
 !poetry.lock
 !pyproject.toml

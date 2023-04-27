@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'core',
     'goals',
+    'bot',
 
 ]
 
@@ -164,3 +165,19 @@ SOCIAL_AUTH_VK_EXTRA_DATA = [
 ]
 
 SOCIAL_AUTH_USER_MODEL = 'core.User'
+
+BOT_TOKEN = env('BOT_TOKEN')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}

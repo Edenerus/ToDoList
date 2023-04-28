@@ -1,6 +1,8 @@
 import requests
 import logging
 
+from pydantic import ValidationError
+
 from bot.tg.dc import GetUpdatesResponse, SendMessageResponse
 
 
@@ -20,7 +22,14 @@ class TgClient:
 
         try:
             response = requests.get(url=url, params=params)
-        except Exception as e:
+
+            logging.debug(
+                'Status code: %d, Response: %s',
+                response.status_code,
+                str(response.json()),
+                )
+
+        except ValidationError as e:
             logging.error('Не удалось получить обновления')
             raise e
         else:

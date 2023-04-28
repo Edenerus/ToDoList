@@ -14,7 +14,8 @@ class TgClient:
         return f"https://api.telegram.org/bot{self.token}/{method}"
 
     def get_updates(self, offset: int = 0, timeout: int = 60) -> GetUpdatesResponse:
-        url = self.get_url('GetUpdates')
+
+        url = self.get_url('getUpdates')
         params = {
             'offset': offset,
             'timeout': timeout
@@ -22,18 +23,15 @@ class TgClient:
 
         try:
             response = requests.get(url=url, params=params)
-
-            logging.debug(
-                'Status code: %d, Response: %s',
-                response.status_code,
-                str(response.json()),
-                )
-
-        except ValidationError as e:
+            return GetUpdatesResponse(**response.json())
+        except Exception as e:
+            logging.error(
+                    'Status code: %d, Response: %s',
+                    response.status_code,
+                    str(response.json()),
+                    )
             logging.error('Не удалось получить обновления')
             raise e
-        else:
-            return GetUpdatesResponse(**response.json())
 
     def send_message(self, chat_id: int, text: str) -> SendMessageResponse:
         url = self.get_url('sendMessage')
@@ -44,6 +42,11 @@ class TgClient:
         try:
             response = requests.post(url=url, data=data)
         except Exception as e:
+            logging.error(
+                'Status code: %d, Response: %s',
+                response.status_code,
+                str(response.json()),
+            )
             logging.error('Не удалось отправить сообщение')
             raise e
         else:

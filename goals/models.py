@@ -4,6 +4,7 @@ from django.utils import timezone
 from core.models import User
 
 
+# Базовая модель для определения даты
 class DatesModel(models.Model):
     class Meta:
         abstract = True
@@ -18,6 +19,7 @@ class DatesModel(models.Model):
         return super().save(*args, **kwargs)
 
 
+# Модель для досок
 class Board(DatesModel):
     class Meta:
         verbose_name = 'Доска'
@@ -27,6 +29,7 @@ class Board(DatesModel):
     is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
 
 
+# Модель для категорий
 class GoalCategory(DatesModel):
     class Meta:
         verbose_name = 'Категория'
@@ -43,6 +46,7 @@ class GoalCategory(DatesModel):
         return self.title
 
 
+# Модель для целей
 class Goal(DatesModel):
     class Status(models.IntegerChoices):
         to_do = 1, 'К выполнению'
@@ -73,6 +77,7 @@ class Goal(DatesModel):
         return self.title
 
 
+# Модель для комментариев
 class GoalComment(DatesModel):
     class Meta:
         verbose_name = 'Комментарий'
@@ -86,6 +91,7 @@ class GoalComment(DatesModel):
         return self.text
 
 
+# Модель для доступа пользователей в доске
 class BoardParticipant(DatesModel):
     class Meta:
         unique_together = ("board", "user")

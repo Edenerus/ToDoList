@@ -2,6 +2,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 
+# Создание поля для пароля пользователя
 class PasswordField(serializers.CharField):
     def __init__(self, **kwargs):
         kwargs['style'] = {'input_type': 'password'}

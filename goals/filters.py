@@ -5,6 +5,7 @@ from django_filters import rest_framework
 from goals.models import Goal, GoalCategory
 
 
+# Фильтр для даты дедлайна, приоритета и статусов
 class GoalDateFilter(rest_framework.FilterSet):
     class Meta:
         model = Goal
@@ -20,6 +21,7 @@ class GoalDateFilter(rest_framework.FilterSet):
         }
 
 
+# Фильтр категорий в доске
 class CategoryBoardFilter(rest_framework.FilterSet):
     class Meta:
         model = GoalCategory

@@ -20,8 +20,8 @@ from bot.views import BotVerificationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('core/', include('core.urls')),
-    path('goals/', include('goals.urls')),
+    path('core/', include(('core.urls', 'core'))),
+    path('goals/', include(('goals.urls', 'goals'))),
     path('oauth/', include('social_django.urls', namespace='social')),
     path('bot/verify', BotVerificationView.as_view(), name='telegram_verify'),
 

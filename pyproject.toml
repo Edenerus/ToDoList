@@ -19,6 +19,9 @@ django-filter = "^23.1"
 pydantic = "^1.10.7"
 requests = "^2.29.0"
 marshmallow-dataclass = "^8.5.13"
+pytest = "^7.3.1"
+pytest-django = "^4.5.2"
+pytest-factoryboy = "^2.5.1"
 
 
 [build-system]

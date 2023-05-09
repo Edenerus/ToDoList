@@ -6,11 +6,12 @@
 ___
 
 Ссылка на сайт \
-[`edenerus.online`](http://edenerus.online:8001) \
+[![edenerus.online](https://img.shields.io/badge/-edenerus.online-blue)](http://edenerus.online:8001) \
 \
 Ссылка на бота \
-[`ToDoListEdenerus_bot`](https://t.me/ToDoListEdenerus_bot)
-___
+[![ToDoListEdenerus_bot](https://img.shields.io/badge/-ToDoListEdenerus_bot-blue)](https://t.me/ToDoListEdenerus_bot)
+
+---
 
 ## Бэкенд-функционал:
 

@@ -15,12 +15,12 @@ class CreateUserSerializer(serializers.ModelSerializer):
         model = User
         exclude = ['is_staff', 'is_active', 'date_joined']
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict) -> dict:
         if attrs['password'] != attrs['password_repeat']:
             raise ValidationError('Пароли не совпадают')
         return attrs
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> User:
         del validated_data['password_repeat']
         validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
@@ -34,7 +34,7 @@ class LoginSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> User:
         if not(user := authenticate(
             username=validated_data['username'],
             password=validated_data['password']
@@ -58,7 +58,7 @@ class PasswordUpdateSerializer(serializers.Serializer):
             raise ValidationError(detail='Passwords must match')
         return attrs
 
-    def update(self, instance, validated_data):
+    def update(self, instance: User, validated_data: dict) -> User:
         instance.set_password(validated_data['new_password'])
         instance.save(update_fields=['password'])
         return instance

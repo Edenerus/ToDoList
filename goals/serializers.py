@@ -18,7 +18,7 @@ class GoalCategoryCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "created", "updated", "user", "is_deleted")
         fields = "__all__"
 
-    def validate_board(self, value: Board):
+    def validate_board(self, value: Board) -> Board:
         if value.is_deleted:
             raise serializers.ValidationError('Board is deleted')
         if not BoardParticipant.objects.filter(
@@ -47,7 +47,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ("id", "user", "created", "updated")
 
-    def validate_category(self, value: GoalCategory):
+    def validate_category(self, value: GoalCategory) -> GoalCategory:
         if value.is_deleted:
             raise serializers.ValidationError('Category is deleted')
 
@@ -77,7 +77,7 @@ class GoalCommentCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('id', 'user', 'created', 'updated')
 
-    def validate_goal(self, value: Goal):
+    def validate_goal(self, value: Goal) -> Goal:
         if not BoardParticipant.objects.filter(
                 board=value.category.board.id,
                 user_id=self.context['request'].user.id,
@@ -110,7 +110,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "created", "updated", "is_deleted")
         fields = "__all__"
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Board:
         user = validated_data.pop("user")
         board = Board.objects.create(**validated_data)
         BoardParticipant.objects.create(
@@ -143,7 +143,7 @@ class BoardSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('id', 'created', 'updated')
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Board, validated_data: dict) -> Board:
         owner: User = validated_data.pop('user')
         new_participants = validated_data.pop('participants')
         old_participants = instance.participants.exclude(user=owner)

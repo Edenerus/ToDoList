@@ -32,13 +32,13 @@ def another_user(user_factory):
 
 
 @pytest.fixture
-def goal(goal_factory, user, board):
+def goal(goal_factory, user, board) -> Goal:
     _, category = board
     return goal_factory.create(user=user, category=category)
 
 
 @pytest.fixture
-def comment(goal, user, comment_factory):
+def comment(goal, user, comment_factory) -> GoalComment:
     return comment_factory.create(user=user, goal=goal)
 
 

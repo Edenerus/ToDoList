@@ -47,3 +47,28 @@ def board(board_factory, category_factory, user) -> tuple[Board, GoalCategory]:
     board = board_factory.create(with_owner=user)
     category = category_factory.create(board=board, user=user)
     return board, category
+
+
+@pytest.fixture
+def alien_board(board_factory, another_user, category_factory) -> tuple[Board, GoalCategory]:
+    board = board_factory.create(with_owner=another_user)
+    category = category_factory.create(board=board, user=another_user)
+    return board, category
+
+
+@pytest.fixture
+def alien_board_writer(board_factory, board_participant_factory, category_factory, user) -> tuple[Board, GoalCategory]:
+    board = board_factory.create()
+    board_participant_factory(board=board, user=user, role=2)
+    category = category_factory.create(board=board, user=user)
+    return board, category
+
+
+@pytest.fixture
+def alien_board_reader(
+        board_factory, board_participant_factory,
+        category_factory, another_user, user) -> tuple[Board, GoalCategory]:
+    board = board_factory.create()
+    board_participant_factory(board=board, user=user, role=3)
+    category = category_factory.create(board=board, user=another_user)
+    return board, category
